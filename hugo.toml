@@ -1,0 +1,50 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'Frankie Murillo'
+theme = 'PaperMod'
+
+
+[params.homeInfoParams]
+Title = "Hi there, my name is Frankie and I'm a developer 👋"
+Content = "I am currently a backend engineer at American Express. I am passionate about software development and I love to learn new things. I am also a big fan of open source and I love to contribute to open source projects."
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/frankie-mur"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/frankie-murillo"
+
+[params]
+ShowBreadCrumbs = true
+
+[languages.en]
+languageName = "English"
+weight = 1
+
+
+[[languages.en.menu.main]]
+name = "Archive"
+url = "archives"
+weight = 5
+
+[[languages.en.menu.main]]
+name = "Tags"
+url = "tags/"
+weight = 15
+
+[[languages.en.menu.main]]
+name = "Search"
+url = "search/"
+weight = 10
+
+
+
+[taxonomies]
+category = 'categories'
+tag = 'tags'
+series = 'series'
+
+[outputs]
+home = [ "HTML", "RSS", "JSON" ]
