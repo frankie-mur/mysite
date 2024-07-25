@@ -39,8 +39,6 @@ name = "Search"
 url = "search/"
 weight = 10
 
-
-
 [taxonomies]
 category = 'categories'
 tag = 'tags'
@@ -48,3 +46,10 @@ series = 'series'
 
 [outputs]
 home = [ "HTML", "RSS", "JSON" ]
+
+[params.assets]
+favicon = "/favicon.ico"
+favicon16x16 = "/favicon-16x16.png"
+favicon32x32 = "/favicon-32x32.png"
+apple_touch_icon = "/apple-touch-icon.png"
+safari_pinned_tab = "/safari-pinned-tab.svg"
