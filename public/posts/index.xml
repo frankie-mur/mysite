@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Frankie Murillo</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 24 Jul 2024 23:03:49 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 27 Jul 2024 11:39:57 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Book Recomendations</title>
@@ -14,6 +14,16 @@
       <pubDate>Wed, 24 Jul 2024 23:03:49 -0700</pubDate>
       <guid>http://localhost:1313/posts/books/</guid>
       <description>Currently Reading&amp;hellip; Title Link Writing a Compiler in Go Link Acing the System Design Interview Link Have Read Title Thoughts Rating (out of 5) Link Writing An Intreptor In Go Really good book, and introduction to Go aswell as Programing languages, love how its written with a TDD approach 5/5 Link The Missing Read Me Awesome introduction to software engineering profession. Especialy enjoyed the chapers on SEMVER and comunicating with you manager 5/5 Link The Phoenix Project Classic.</description>
+    </item>
+    <item>
+      <title>Go_kafka_article</title>
+      <link>http://localhost:1313/posts/go_kafka_article/</link>
+      <pubDate>Sat, 27 Jul 2024 11:39:57 -0700</pubDate>
+      <guid>http://localhost:1313/posts/go_kafka_article/</guid>
+      <description>What is Kafka? Kafka is an event streaming platform used to collect and process data streams at scale, it was Initially developed at LinkedIn in 2011. It is now open-sourced and part of the Apache Software Foundation. It is a JVM application written in Java and Scala.
+Notable Companies Using Kafka:
+LinkedIn: Kafka originated at LinkedIn. They use it for tracking operational metrics, monitoring, and event sourcing.
+Netflix: They use Kafka for real-time monitoring and event processing.</description>
     </item>
     <item>
       <title>Gophercon 2024 Note Dump</title>

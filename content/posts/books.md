@@ -3,7 +3,6 @@ title = 'Book Recomendations'
 date = 2024-07-24T23:03:49-07:00
 draft = false
 tags = ["books", "recommendations"]
-weight = 1
 +++
 
 # Currently Reading...

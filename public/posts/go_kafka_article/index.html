@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Go with the Flow: Event Streaming with Go and Kafka | Frankie Murillo</title>
+<meta name="keywords" content="golang, kafka">
+<meta name="description" content="What is Kafka? Kafka is an event streaming platform used to collect and process data streams at scale, it was Initially developed at LinkedIn in 2011. It is now open-sourced and part of the Apache Software Foundation. It is a JVM application written in Java and Scala.
+Notable Companies Using Kafka:
+LinkedIn: Kafka originated at LinkedIn. They use it for tracking operational metrics, monitoring, and event sourcing.
+Netflix: They use Kafka for real-time monitoring and event processing.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/go_kafka_article/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/go_kafka_article/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Frankie Murillo (Alt + H)">Frankie Murillo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Go with the Flow: Event Streaming with Go and Kafka
+    </h1>
+    <div class="post-meta"><span title='2024-07-27 11:39:57 -0700 MST'>July 27, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="what-is-kafka">What is Kafka?<a hidden class="anchor" aria-hidden="true" href="#what-is-kafka">#</a></h1>
+<p>Kafka is an event streaming platform used to collect and process data streams at scale, it was Initially developed at LinkedIn in 2011. It is now open-sourced and part of the Apache Software Foundation. It is a JVM application written in Java and Scala.</p>
+<!-- raw HTML omitted -->
+<p><strong>Notable Companies Using Kafka</strong>:</p>
+<ul>
+<li>
+<p><strong>LinkedIn</strong>: Kafka originated at LinkedIn. They use it for tracking operational metrics, monitoring, and event sourcing.</p>
+</li>
+<li>
+<p><strong>Netflix</strong>: They use Kafka for real-time monitoring and event processing.</p>
+</li>
+<li>
+<p><strong>Uber</strong>: Uses Kafka for gathering metrics from its many services spread across its transportation platform.</p>
+</li>
+<li>
+<p><strong>Spotify</strong>: Employs Kafka for tracking user activity and updating playlists in real-time.</p>
+</li>
+</ul>
+<h2 id="events">Events<a hidden class="anchor" aria-hidden="true" href="#events">#</a></h2>
+<ul>
+<li>
+<p>Simply put an event is &ldquo;a thing that happened&rdquo;, it is a combination of Notification and State. Notable examples include</p>
+<ul>
+<li>
+<p>Internet of Things (If my thermostat reads 80)</p>
+</li>
+<li>
+<p>User Interaction (User hovers over a black dress)</p>
+</li>
+<li>
+<p>Microservice output</p>
+</li>
+<li>
+<p>Business process change</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Kafa data model for events is a key-value pair</p>
+<ul>
+<li>
+<p>Event Key: &ldquo;20393&rdquo; (Representing a user ID)</p>
+<ul>
+<li>Usually represented as a string or integer</li>
+</ul>
+</li>
+<li>
+<p>Event Value: &ldquo;Hovered over a black dress for 3 seconds&rdquo;</p>
+<ul>
+<li>Usually represented as one of JSON, Avro, Protocol Buffers</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>*Note that I use the terms event and message interchangeably</p>
+<h2 id="topic">Topic<a hidden class="anchor" aria-hidden="true" href="#topic">#</a></h2>
+<p>Now we need a way to store all these events&hellip;You can think of topics as named containers for similar events. They are really just append-only log files that contain events. All events must be sent to a topic, for example, we can create a topic named &ldquo;user_metadata&rdquo;, and send our event to it. Important things to note about topics are</p>
+<ul>
+<li>
+<p>They are immutable, they cannot be deleted or destroyed</p>
+</li>
+<li>
+<p>Topics are durable, retention period is configurable</p>
+</li>
+<li>
+<p>They can only seek by offset, not indexed (this is what makes Kafka so fast!)</p>
+</li>
+</ul>
+<h2 id="producer">Producer<a hidden class="anchor" aria-hidden="true" href="#producer">#</a></h2>
+<p>A Producer is a client application that publishes messages to Kafka. A producer will set the Key and Value of an event and send to a specific topic.</p>
+<h2 id="consumer">Consumer<a hidden class="anchor" aria-hidden="true" href="#consumer">#</a></h2>
+<p>A Consumer is also a client application that reads and processes events from Kafka. A Consumer must <em>subscribe</em> to a topic in order to receive that topic&rsquo;s events. There can be many consumers for a single topic</p>
+<h2 id="broker">Broker<a hidden class="anchor" aria-hidden="true" href="#broker">#</a></h2>
+<p>A Broker refers to a single Kafka server instance in a Kafka cluster. The broker is responsible for receiving data (writes) from producers, storing this data, and serving it to consumers for reads. The Broker also manages the offset (or position) for consumer groups</p>
+<hr>
+<p>This is all we need to know to get started, however, I would like to quickly mention a couple of other core Kafka components that we will not get to in this project:</p>
+<p><strong>Partitions</strong>: Segments within a Kafka topic that allow data to be distributed and processed in parallel.</p>
+<p><strong>Replicas</strong>: Copies of a Kafka partition that provide fault tolerance and data redundancy, ensuring data availability even if a server fails.</p>
+<p><strong>Consumer groups</strong>: A set of consumers working together to consume and process data from one or multiple topics, ensuring each message is processed once and only once by one member of the group.</p>
+<p><strong>Kraft</strong>: A way for Kafka to manage its internal organization without relying on an external helper, making it simpler and more self-contained.</p>
+<h2 id="project-time">Project Time<a hidden class="anchor" aria-hidden="true" href="#project-time">#</a></h2>
+<p>Today we will create a Go project, simulating a real use case for Kafka. Real-time fraud detection, to get started make sure you have <a href="https://go.dev/doc/install">Go</a> installed. Then create a directory where you want your project to live.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir kafka-fraud-detection
+</span></span></code></pre></div><p>Here we will be running Kafka on a Docker instance that can easily be spun up. Use the gist below as the content for your <code>docker-compose.yaml</code> file.</p>
+<p>%[https://gist.github.com/frankie-mur/d1591e3f347a76998de9b1c7d3293d7f]</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose up
+</span></span></code></pre></div><h3 id="project-structure">Project Structure<a hidden class="anchor" aria-hidden="true" href="#project-structure">#</a></h3>
+<p>Great now we have Kafka running in a docker container and ports forwarded to our local host this will allow us to connect to Kafka, let&rsquo;s set up the project structure we want to create a couple of folders</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p cmd/producer cmd/consumer pkg/models pkg/bankaccount
+</span></span></code></pre></div><p>Finally, we want to initialize Go modules and install external packages. We will be using <a href="https://github.com/IBM/sarama"><code>sarama</code></a> it to establish a connection to our Kafka broker and <a href="https://github.com/go-faker/faker"><code>faker</code></a> to generate bank account creation events.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go mod init kafka-fraud-detection
+</span></span><span style="display:flex;"><span>go get github.com/IBM/sarama github.com/ github.com/bxcodec/faker/v4
+</span></span></code></pre></div><h3 id="create-our-models-and-faker-data">Create our Models and Faker Data<a hidden class="anchor" aria-hidden="true" href="#create-our-models-and-faker-data">#</a></h3>
+<p>Let&rsquo;s start by setting up our BankAccount model and associated function to generate fake bank account events let&rsquo;s create a file <code>pkg/models/models.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">models</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">BankAccount</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">FirstName</span>        <span style="color:#66d9ef">string</span>  <span style="color:#e6db74">`faker:&#34;first_name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">LastName</span>         <span style="color:#66d9ef">string</span>  <span style="color:#e6db74">`faker:&#34;last_name&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">CreditCardNumber</span> <span style="color:#66d9ef">string</span>  <span style="color:#e6db74">`faker:&#34;cc_number&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Amount</span>           <span style="color:#66d9ef">float64</span> <span style="color:#e6db74">`faker:&#34;amount&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Great, This is simulating Bank Account data that a consumer will need to verify. Now let&rsquo;s create that function in <code>/pkg/bankaccount/BankAccount.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">bankaccount</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/bxcodec/faker/v4&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/frankie-mur/go-kafka/pkg/models&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GenerateBankAccount</span>() (<span style="color:#f92672">*</span><span style="color:#a6e22e">models</span>.<span style="color:#a6e22e">BankAccount</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">bankAccount</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">models</span>.<span style="color:#a6e22e">BankAccount</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">faker</span>.<span style="color:#a6e22e">FakeData</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">bankAccount</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to generate bank account: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">bankAccount</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This function uses our annotated BankAccount struct and the <code>faker</code> library to generate fake data and return that data.</p>
+<h3 id="setting-up-our-producer">Setting up our Producer<a hidden class="anchor" aria-hidden="true" href="#setting-up-our-producer">#</a></h3>
+<p>Now that we have all that setup let&rsquo;s get to the fun part, setting up our Producers and Consumers. We will start with our Producer by creating a new file in <code>cmd/producer/producer.go</code> and creating the function</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">KafkaServerAddress</span> = <span style="color:#e6db74">&#34;localhost:9092&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">KafkaTopic</span>         = <span style="color:#e6db74">&#34;bankaccount&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setupProducer</span>() (<span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">SyncProducer</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">config</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">NewConfig</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Producer</span>.<span style="color:#a6e22e">Return</span>.<span style="color:#a6e22e">Successes</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">producer</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">NewSyncProducer</span>([]<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">KafkaServerAddress</span>},
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">config</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to setup producer: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">producer</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Let&rsquo;s break down this code a bit</p>
+<ul>
+<li>
+<p>Define a function <code>setupProducer</code> that creates and configures a Kafka producer client. This function will return a <code>SyncProducer</code> if it succeeds or an <code>error</code> if fails</p>
+</li>
+<li>
+<p>Create a <code>sarama.Config</code> struct to hold producer configuration set <code>Producer.Return.Successes</code> to true so the producer will return success metadata for each message.</p>
+</li>
+<li>
+<p>Call <code>sarama.NewSyncProducer</code> to create a new synchronous Kafka producer, passing the broker address and config. It returns the producer instance and any error from producer creation.</p>
+</li>
+</ul>
+<p>Simple enough, now let&rsquo;s create our main function that will call the created function above</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">setupProducer</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to setup producer: %v&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>Create our Kafka producer and assign it to a variable <code>p</code></p>
+</li>
+<li>
+<p>Handle any errors creating the producer</p>
+</li>
+<li>
+<p>Defer closing the producer <code>p</code> connection unitl the function exits</p>
+</li>
+</ul>
+<h4 id="now-lets-create-our-message-sending-function">Now let&rsquo;s create our message-sending function!<a hidden class="anchor" aria-hidden="true" href="#now-lets-create-our-message-sending-function">#</a></h4>
+<p>Now we have a producer and can send messages let&rsquo;s abstract that a bit and create another function that handles sending messages</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendKafkaMessage</span>(<span style="color:#a6e22e">producer</span> <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">SyncProducer</span>, <span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">message</span> []<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">msg</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">ProducerMessage</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Topic</span>: <span style="color:#a6e22e">topic</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Value</span>: <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">ByteEncoder</span>(<span style="color:#a6e22e">message</span>),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">producer</span>.<span style="color:#a6e22e">SendMessage</span>(<span style="color:#a6e22e">msg</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>Define a function <code>sendKafkaMessage</code> that sends a message to Kafka using a provided <code>producer</code>. It accepts the producer, topic name, and message payload as parameters.</p>
+</li>
+<li>
+<p>Create a <code>sarama.ProducerMessage</code> struct with the topic name and message payload.</p>
+</li>
+<li>
+<p>use the <code>producer.SendMessage</code> method to send the message to Kafka asynchronously.</p>
+</li>
+<li>
+<p>Note: As you can see we only send a value, what about the key? In Kafka sending keys is optional. In our use case, we will omit the key.</p>
+</li>
+</ul>
+<p>Return any error from the send operation.</p>
+<!-- raw HTML omitted -->
+<p>Now back to our main function to add some code&hellip;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">setupProducer</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to setup producer: %v&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">size</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">size</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//Generate fake bank account data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">bank</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bankaccount</span>.<span style="color:#a6e22e">GenerateBankAccount</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Failed to generate bank account: %v&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//Convert the bank account data to []byte
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">bank</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Failed to marshal bank account: %v&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//Send the message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">sendKafkaMessage</span>(<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">KafkaTopic</span>, <span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Failed to send message: %v&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>Configure a size of 10, to send 10 messages (or events) to Kafka</p>
+</li>
+<li>
+<p>Generate random fake bank account data using <code>bankaccount.GenerateBankAccount()</code> function we created</p>
+</li>
+<li>
+<p>We must convert our bank data to <code>[]byte</code> to send as a message in kafka so we use <code>json.Marshal(bank)</code> to do that for us (basically just converting our struct to stringified json)</p>
+</li>
+<li>
+<p>Finally, we send the message and check for error</p>
+</li>
+</ul>
+<p>Done! Now that we can produce events lets create a Consumer to consume them!</p>
+<h3 id="setting-up-our-consumer">Setting up our Consumer<a hidden class="anchor" aria-hidden="true" href="#setting-up-our-consumer">#</a></h3>
+<p>Similar to our <code>producer.go</code> we will start with writing a function to connect as a consumer to Kafka. Lets create a new file in <code>cmd/consumer/consumer.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">KafkaServerAddress</span> = <span style="color:#e6db74">&#34;localhost:9092&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">KafkaTopic</span>         = <span style="color:#e6db74">&#34;bankaccount&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">connectConsumer</span>() (<span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">Consumer</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">config</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">NewConfig</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Consumer</span>.<span style="color:#a6e22e">Return</span>.<span style="color:#a6e22e">Errors</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Consumer</span>.<span style="color:#a6e22e">Offsets</span>.<span style="color:#a6e22e">Initial</span> = <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">OffsetNewest</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Create new consumer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">NewConsumer</span>([]<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">KafkaServerAddress</span>}, <span style="color:#a6e22e">config</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">conn</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This code:</p>
+<ul>
+<li>
+<p>Defines constants for the Kafka server address and topic name.</p>
+</li>
+<li>
+<p>Defines a <code>connectConsumer</code> function to create a Kafka consumer client.</p>
+</li>
+<li>
+<p>Creates a sarama.Config with settings:</p>
+<ul>
+<li>
+<p><code>Consumer.Return.Errors</code> set to true will return any errors that occurred during the consumption of an event</p>
+</li>
+<li>
+<p><code>Consumer.Offsets.Initial</code> set to <code>sarama.OffsetNewest</code>, this will set the newly created Consumers offset to be the newest. This will make sure the Consumer only consumes events that happened during or after its creation.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Calls <code>sarama.NewConsumer</code> to create the client, passing the broker address and config.</p>
+</li>
+<li>
+<p>Returns the new consumer instance and any error.</p>
+</li>
+</ul>
+<p>Great, now let&rsquo;s create our main function</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">worker</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">connectConsumer</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Calling ConsumePartition. It will open one connection per broker
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// and share it for all partitions that live on it.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">consumer</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">worker</span>.<span style="color:#a6e22e">ConsumePartition</span>(<span style="color:#a6e22e">KafkaTopic</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">OffsetNewest</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Consumer started &#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">sigchan</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Signal</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">signal</span>.<span style="color:#a6e22e">Notify</span>(<span style="color:#a6e22e">sigchan</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGINT</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGTERM</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Get signal for finish
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">doneCh</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{})
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Some things to point out here:</p>
+<ul>
+<li>
+<p>we call <code>worker.ConsumePartition()</code> to start consuming messages from partition 0 of the KafkaTopic, starting from the newest offset.</p>
+</li>
+<li>
+<p>we create sig chan channel to receive OS signals like Ctrl+C. To gracefully shutdown or log errors</p>
+</li>
+</ul>
+<p>Now we need to handle when a consumer receives events</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//spins up a goroutine to fetch messages from Kafka
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//and handle them, while also monitoring for shutdown signals
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">select</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">consumer</span>.<span style="color:#a6e22e">Errors</span>():
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">msg</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">consumer</span>.<span style="color:#a6e22e">Messages</span>():
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">//Handle the message received  from Kafka
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">handleMessage</span>(<span style="color:#a6e22e">msg</span>)
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Failed to handle message for consumer with key: %v, with error: %v\n&#34;</span>, <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">Key</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">sigchan</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Interrupt is detected&#34;</span>)
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">doneCh</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">struct</span>{}{}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">doneCh</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Processed all messages, awaiting more...&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">worker</span>.<span style="color:#a6e22e">Close</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		panic(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>without going too much into goroutines when our consumer receives an Error or Message it will be caught in our <code>select</code> statement, let&rsquo;s define our `handleMessage` function&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleMessage</span>(<span style="color:#a6e22e">msg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sarama</span>.<span style="color:#a6e22e">ConsumerMessage</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Received message | Topic(%s) | Message(%s) \n&#34;</span>, <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">Topic</span>, string(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">Value</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//Parse the message back into our BankAccount struct
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">bankAccount</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">models</span>.<span style="color:#a6e22e">BankAccount</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">Value</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">bankAccount</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to parse message: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//Call our fake Veritas API
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">succeeded</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">callVeritas</span>(<span style="color:#a6e22e">bankAccount</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">succeeded</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;--UNAUTHORIZED-- bank account for user %s\n&#34;</span>, <span style="color:#a6e22e">bankAccount</span>.<span style="color:#a6e22e">FirstName</span>)
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;--AUTHORIZED-- bank account for user %s\n&#34;</span>, <span style="color:#a6e22e">bankAccount</span>.<span style="color:#a6e22e">FirstName</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Simulate calling an actual verification service
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// randomly return true or false
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">callVeritas</span>(<span style="color:#a6e22e">bankAccount</span> <span style="color:#a6e22e">models</span>.<span style="color:#a6e22e">BankAccount</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Calling Veritas for %s bank...\n&#34;</span>, <span style="color:#a6e22e">bankAccount</span>.<span style="color:#a6e22e">FirstName</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Intn</span>(<span style="color:#ae81ff">2</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Notice we Unmarshal <code>msg.Value</code> (Remember these are key-value pairs!) to our BankAccount struct. Call our fake Authorization API that we call <a href="https://www.dictionary.com/e/translations/veritas-aequitas/"><code>Vertias</code></a>, and print out the results.</li>
+</ul>
+<h4 id="finished-we-now-have-both-our-producer-and-our-consumer-lets-use-them">Finished! We now have both our Producer and our Consumer, let&rsquo;s use them.<a hidden class="anchor" aria-hidden="true" href="#finished-we-now-have-both-our-producer-and-our-consumer-lets-use-them">#</a></h4>
+<p>Let&rsquo;s start with running our consumer, go to the root of the project and run the command in your terminal</p>
+<p><img loading="lazy" src="https://cdn.hashnode.com/res/hashnode/image/upload/v1698274247768/5da84e9e-f59f-44fd-8474-9b41fc92b85c.png" alt="Screenshot"  />
+</p>
+<p>Our consumer is now running and listening for events of its subscribed topic&hellip;in our case the topic <code>bankaccount</code>.</p>
+<p>Now let&rsquo;s send some events! Open a new terminal (or split) and once again go to the root of the project and run the command</p>
+<p><img loading="lazy" src="https://cdn.hashnode.com/res/hashnode/image/upload/v1698274350519/d850de71-9c50-4bda-b54b-014c11a0b030.png" alt="Screenshot"  />
+</p>
+<p>Did you see that?! If you were watching the Consumer terminal you would see something similar to this</p>
+<p><img loading="lazy" src="https://cdn.hashnode.com/res/hashnode/image/upload/v1698274401523/071a5f52-8626-4877-ad4b-fb6dd6317496.png" alt=""  />
+</p>
+<p>We did it! If you were following along here is a quick overview of the entire flow</p>
+<ol>
+<li>
+<p>Our producer sent an event to Kafka with the topic <code>bankaccount</code> and the value <code>{&quot;FirstName&quot;:&quot;Jimmie&quot;,&quot;LastName&quot;:&quot;Swaniawski&quot;,&quot;CreditCardNumber&quot;:&quot;3558018114425614&quot;,&quot;Amount&quot;:644.78}</code></p>
+</li>
+<li>
+<p>Our consumer is subscribed to the topic <code>bankaccount</code>, therefore it receives our message</p>
+</li>
+<li>
+<p>The message is Unmarshalled and sent to our (fake) Authorization service Veritas.</p>
+</li>
+<li>
+<p>It is Verified (or in our case Unauthorized) and the result is printed to the console</p>
+</li>
+</ol>
+<!-- raw HTML omitted -->
+<p>source code: <a href="https://github.com/frankie-mur/go-kafka-fraud-detection/tree/main">https://github.com/frankie-mur/go-kafka-fraud-detection/tree/main</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/golang/">Golang</a></li>
+      <li><a href="http://localhost:1313/tags/kafka/">Kafka</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="http://localhost:1313/">Frankie Murillo</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
