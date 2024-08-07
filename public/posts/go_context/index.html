@@ -5,11 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Posts | Frankie Murillo</title>
+<title>Go: some context about context | Frankie Murillo</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - Frankie Murillo">
+<meta name="description" content="In its simpliest form, context is an interface from the Go docs
+Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes. This may seem confusing but in essense context serves two purposes within a Go application Timeouts Storing values In general to craete a context you will call the context.Background() function. when you are unsure of what context to use you will use context.">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/">
+<link rel="canonical" href="http://localhost:1313/posts/go_context/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
@@ -18,8 +19,7 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/go_context/">
 <noscript>
     <style>
         #theme-toggle,
@@ -59,7 +59,7 @@
 </noscript>
 </head>
 
-<body class="list" id="top">
+<body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
@@ -117,100 +117,66 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/">Home</a></div>
-  <h1>
-    Posts
-  </h1>
-</header>
+<main class="main">
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Go_context
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Go: some context about context
       <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
           <path
             d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
         </svg>
       </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>In its simpliest form, context is an interface from the Go docs Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes.
-This may seem confusing but in essense context serves two purposes within a Go application
-Timeouts Storing values In general to craete a context you will call the context.Background() function. when you are unsure of what context to use you will use context....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-08-06 22:48:54 -0700 MST'>August 6, 2024</span></footer>
-  <a class="entry-link" aria-label="post link to Go_context" href="http://localhost:1313/posts/go_context/"></a>
-</article>
+    </h1>
+    <div class="post-meta"><span title='2024-08-06 22:48:54 -0700 MST'>August 6, 2024</span>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Oauth_2
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Oauth 2.0 TLDR; Oauth2 is an authorization protocol used to grant access to a resource (like a service or API) without sharing credentials. For example a spotify TUI client, would use Oauth2 to request access to the spotify API, then use that token to access the spotify API on your behalf, without having to share your credentials. This will also be limited to the scopes that you have allowed the client to access....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-07-31 20:25:47 -0700 MST'>July 31, 2024</span></footer>
-  <a class="entry-link" aria-label="post link to Oauth_2" href="http://localhost:1313/posts/oauth_2/"></a>
-</article>
+</div>
+  </header> 
+  <div class="post-content"><h2 id="in-its-simpliest-form-context-is-an-interface">In its simpliest form, context is an interface<a hidden class="anchor" aria-hidden="true" href="#in-its-simpliest-form-context-is-an-interface">#</a></h2>
+<p>from the <a href="https://pkg.go.dev/context">Go docs</a></p>
+<pre tabindex="0"><code>     Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes.
+</code></pre><h4 id="this-may-seem-confusing-but-in-essense-context-serves-two-purposes-within-a-go-application">This may seem confusing but in essense context serves two purposes within a Go application<a hidden class="anchor" aria-hidden="true" href="#this-may-seem-confusing-but-in-essense-context-serves-two-purposes-within-a-go-application">#</a></h4>
+<ol>
+<li>Timeouts</li>
+<li>Storing values</li>
+</ol>
+<p>In general to craete a context you will call the <code>context.Background()</code> function.
+when you are unsure of what context to use you will use <code>context.TODO()</code> function</p>
+<h1 id="timeouts">Timeouts<a hidden class="anchor" aria-hidden="true" href="#timeouts">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">cancel</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithTimeout</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">cancel</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">doSomething</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example we are creating a context with a timeout of 1 second, this means that if the function <code>doSomething</code> does not return within 1 second the context will be canceled.</p>
+<h1 id="storing-values">Storing Values<a hidden class="anchor" aria-hidden="true" href="#storing-values">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithValue</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#e6db74">&#34;key&#34;</span>, <span style="color:#e6db74">&#34;value&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Value</span>(<span style="color:#e6db74">&#34;key&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">doSomething</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example we are creating a context with a value of &ldquo;key&rdquo; and &ldquo;value&rdquo;. We can then access this value later in our code by calling <code>ctx.Value(&quot;key&quot;)</code>, for example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">doSomething</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) (<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Value</span>(<span style="color:#e6db74">&#34;key&#34;</span>).(<span style="color:#66d9ef">string</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do something with val    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>Context is a powerful tool in Go, it is used to pass values and timeouts between functions. It is used in many places in the Go standard library, such as the <code>net/http</code> package and the <code>database/sql</code> package. Have fun using it!</p>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Go with the Flow: Event Streaming with Go and Kafka
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>What is Kafka? Kafka is an event streaming platform used to collect and process data streams at scale, it was Initially developed at LinkedIn in 2011. It is now open-sourced and part of the Apache Software Foundation. It is a JVM application written in Java and Scala.
-Notable Companies Using Kafka:
-LinkedIn: Kafka originated at LinkedIn. They use it for tracking operational metrics, monitoring, and event sourcing.
-Netflix: They use Kafka for real-time monitoring and event processing....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-07-27 11:39:57 -0700 MST'>July 27, 2024</span></footer>
-  <a class="entry-link" aria-label="post link to Go with the Flow: Event Streaming with Go and Kafka" href="http://localhost:1313/posts/go_kafka_article/"></a>
-</article>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Book Recomendations
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Currently Reading… Title Link Writing a Compiler in Go Link Acing the System Design Interview Link Have Read Title Thoughts Rating (out of 5) Link Writing An Intreptor In Go Really good book, and introduction to Go aswell as Programing languages, love how its written with a TDD approach 5/5 Link The Missing Read Me Awesome introduction to software engineering profession. Especialy enjoyed the chapers on SEMVER and comunicating with you manager 5/5 Link The Phoenix Project Classic....</p>
   </div>
-  <footer class="entry-footer"><span title='2024-07-24 23:03:49 -0700 MST'>July 24, 2024</span></footer>
-  <a class="entry-link" aria-label="post link to Book Recomendations" href="http://localhost:1313/posts/books/"></a>
-</article>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Gophercon 2024 Note Dump
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>GopherCon 2024 Notes Talks Day 1 Charm CLi (Habbit Tracker) - Donia Chaiehloudj Charm is a teminal UI written in go uses ELM archetecure - Model, View, Update grpC backend? (To store habbits etc) check out book Learning Go with pocket sized projects TLDR;Pretty cool, have used before not very succesfully, if I work with the Architecture of the project, I think it will be a lot easier to work with....</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-07-23 19:27:05 -0700 MST'>July 23, 2024</span></footer>
-  <a class="entry-link" aria-label="post link to Gophercon 2024 Note Dump" href="http://localhost:1313/posts/gophercon/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">My First Post
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>This is my first Hugo site it seems pretty cool…. I have sest up PaperMod theme and menu bar along with tags and a fuzzy search. I hear Hugo is written in Go, Im interested in learning more about it (possibly Contribute to it?) anyways looking forward to making more posts. Kaizen!</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-07-22 15:32:13 -0700 MST'>July 22, 2024</span></footer>
-  <a class="entry-link" aria-label="post link to My First Post" href="http://localhost:1313/posts/my-first-post/"></a>
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
 </article>
     </main>
     

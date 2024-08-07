@@ -6,17 +6,26 @@
     <description>Recent content in Posts on Frankie Murillo</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 27 Jul 2024 11:39:57 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 06 Aug 2024 22:48:54 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Book Recomendations</title>
-      <link>http://localhost:1313/posts/books/</link>
-      <pubDate>Wed, 24 Jul 2024 23:03:49 -0700</pubDate>
-      <guid>http://localhost:1313/posts/books/</guid>
-      <description>Currently Reading&amp;hellip; Title Link Writing a Compiler in Go Link Acing the System Design Interview Link Have Read Title Thoughts Rating (out of 5) Link Writing An Intreptor In Go Really good book, and introduction to Go aswell as Programing languages, love how its written with a TDD approach 5/5 Link The Missing Read Me Awesome introduction to software engineering profession. Especialy enjoyed the chapers on SEMVER and comunicating with you manager 5/5 Link The Phoenix Project Classic.</description>
+      <title>Go_context</title>
+      <link>http://localhost:1313/posts/go_context/</link>
+      <pubDate>Tue, 06 Aug 2024 22:48:54 -0700</pubDate>
+      <guid>http://localhost:1313/posts/go_context/</guid>
+      <description>In its simpliest form, context is an interface from the Go docs Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes.
+This may seem confusing but in essense context serves two purposes within a Go application
+Timeouts Storing values In general to craete a context you will call the context.Background() function. when you are unsure of what context to use you will use context.</description>
     </item>
     <item>
-      <title>Go_kafka_article</title>
+      <title>Oauth_2</title>
+      <link>http://localhost:1313/posts/oauth_2/</link>
+      <pubDate>Wed, 31 Jul 2024 20:25:47 -0700</pubDate>
+      <guid>http://localhost:1313/posts/oauth_2/</guid>
+      <description>Oauth 2.0 TLDR; Oauth2 is an authorization protocol used to grant access to a resource (like a service or API) without sharing credentials. For example a spotify TUI client, would use Oauth2 to request access to the spotify API, then use that token to access the spotify API on your behalf, without having to share your credentials. This will also be limited to the scopes that you have allowed the client to access.</description>
+    </item>
+    <item>
+      <title>Go with the Flow: Event Streaming with Go and Kafka</title>
       <link>http://localhost:1313/posts/go_kafka_article/</link>
       <pubDate>Sat, 27 Jul 2024 11:39:57 -0700</pubDate>
       <guid>http://localhost:1313/posts/go_kafka_article/</guid>
@@ -24,6 +33,13 @@
 Notable Companies Using Kafka:
 LinkedIn: Kafka originated at LinkedIn. They use it for tracking operational metrics, monitoring, and event sourcing.
 Netflix: They use Kafka for real-time monitoring and event processing.</description>
+    </item>
+    <item>
+      <title>Book Recomendations</title>
+      <link>http://localhost:1313/posts/books/</link>
+      <pubDate>Wed, 24 Jul 2024 23:03:49 -0700</pubDate>
+      <guid>http://localhost:1313/posts/books/</guid>
+      <description>Currently Reading&amp;hellip; Title Link Writing a Compiler in Go Link Acing the System Design Interview Link Have Read Title Thoughts Rating (out of 5) Link Writing An Intreptor In Go Really good book, and introduction to Go aswell as Programing languages, love how its written with a TDD approach 5/5 Link The Missing Read Me Awesome introduction to software engineering profession. Especialy enjoyed the chapers on SEMVER and comunicating with you manager 5/5 Link The Phoenix Project Classic.</description>
     </item>
     <item>
       <title>Gophercon 2024 Note Dump</title>
