@@ -1,8 +1,8 @@
 +++
 title = 'Go: some context about context'
 date = 2024-08-06T22:48:54-07:00
-draft = true
-tage = ["golang"]
+draft = false
+tags = ["golang"]
 +++
 ## In its simpliest form, context is an interface
 from the [Go docs](https://pkg.go.dev/context)

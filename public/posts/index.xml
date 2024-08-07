@@ -9,16 +9,15 @@
     <lastBuildDate>Tue, 06 Aug 2024 22:48:54 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Go_context</title>
+      <title>Go: some context about context</title>
       <link>http://localhost:1313/posts/go_context/</link>
       <pubDate>Tue, 06 Aug 2024 22:48:54 -0700</pubDate>
       <guid>http://localhost:1313/posts/go_context/</guid>
-      <description>In its simpliest form, context is an interface from the Go docs Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes.
-This may seem confusing but in essense context serves two purposes within a Go application
-Timeouts Storing values In general to craete a context you will call the context.Background() function. when you are unsure of what context to use you will use context.</description>
+      <description>In its simpliest form, context is an interface from the Go docs
+Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes. This may seem confusing but in essense context serves two purposes within a Go application Timeouts Storing values In general to craete a context you will call the context.Background() function. when you are unsure of what context to use you will use context.</description>
     </item>
     <item>
-      <title>Oauth_2</title>
+      <title>Oauth2</title>
       <link>http://localhost:1313/posts/oauth_2/</link>
       <pubDate>Wed, 31 Jul 2024 20:25:47 -0700</pubDate>
       <guid>http://localhost:1313/posts/oauth_2/</guid>

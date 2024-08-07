@@ -8,7 +8,13 @@
     <loc>http://localhost:1313/posts/go_context/</loc>
     <lastmod>2024-08-06T22:48:54-07:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/tags/golang/</loc>
+    <lastmod>2024-08-06T22:48:54-07:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2024-08-06T22:48:54-07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-08-06T22:48:54-07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/oauth_2/</loc>
@@ -17,13 +23,7 @@
     <loc>http://localhost:1313/posts/go_kafka_article/</loc>
     <lastmod>2024-07-27T11:39:57-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/golang/</loc>
-    <lastmod>2024-07-27T11:39:57-07:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/kafka/</loc>
-    <lastmod>2024-07-27T11:39:57-07:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-07-27T11:39:57-07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/books/</loc>
