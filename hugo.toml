@@ -1,8 +1,7 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://frankie-mur.github.io/mysite'
 languageCode = 'en-us'
 title = 'Frankie Murillo'
 theme = 'PaperMod'
-
 
 [params.homeInfoParams]
 Title = "Hi there, my name is Frankie and I'm a developer 👋"
