@@ -6,8 +6,17 @@
     <description>Recent content on Frankie Murillo</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Aug 2024 22:48:54 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 18 Aug 2024 20:00:11 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K8s Crash Course</title>
+      <link>http://localhost:1313/posts/k8scrashcourse/</link>
+      <pubDate>Sun, 18 Aug 2024 20:00:11 -0700</pubDate>
+      <guid>http://localhost:1313/posts/k8scrashcourse/</guid>
+      <description>Over the past week I spent some time learning Kubernetes. I&amp;rsquo;m going to share some of the things I learned and some of the things I&amp;rsquo;m still learning.
+Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized application
+History Way back when&amp;hellip;.there were &amp;ldquo;Traditional Deployments&amp;rdquo; 2000&amp;rsquo;s On Premises, Bare metal hardware Teams of sysadmins handle provisioning and managing of fleets of servers Monoliths&amp;hellip;.. Custom, home grown monitoring and tooling 2010s VM&amp;rsquo;s starting to gain massive adoption Clouds services enables VM&amp;rsquo;s to be created and destroyed Configuration management tolling, and overall imporived tooling 2020s Containers, containers, containers Workload orchestrator&amp;rsquo;s (like Kubernetes!</description>
+    </item>
     <item>
       <title>Go: some context about context</title>
       <link>http://localhost:1313/posts/go_context/</link>
@@ -52,7 +61,8 @@ Netflix: They use Kafka for real-time monitoring and event processing.</descript
       <link>http://localhost:1313/posts/my-first-post/</link>
       <pubDate>Mon, 22 Jul 2024 15:32:13 -0700</pubDate>
       <guid>http://localhost:1313/posts/my-first-post/</guid>
-      <description>This is my first Hugo site it seems pretty cool&amp;hellip;. I have sest up PaperMod theme and menu bar along with tags and a fuzzy search. I hear Hugo is written in Go, Im interested in learning more about it (possibly Contribute to it?) anyways looking forward to making more posts. Kaizen!</description>
+      <description>This is my first Hugo site it seems pretty cool&amp;hellip;.
+Set up theme PaperMod, and menu bar along with tags and a fuzzy search. I like how Hugo is written in Go, very interested in learning more about it (possibly Contribute to it?), anyways looking forward to making more posts. Kaizen! </description>
     </item>
   </channel>
 </rss>

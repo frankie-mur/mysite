@@ -6,5 +6,5 @@ tags = ["hugo", "first post"]
 +++
 
 This is my first Hugo site it seems pretty cool....
-I have sest up [PaperMod](https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite) theme and menu bar along with tags and a fuzzy search.
-I hear Hugo is written in Go, Im interested in learning more about it (possibly Contribute to it?) anyways looking forward to making more posts. Kaizen! 
+- Set up theme [PaperMod](https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite), and menu bar along with tags and a fuzzy search.
+- I like how Hugo is written in Go, very interested in learning more about it (possibly Contribute to it?), anyways looking forward to making more posts. Kaizen! 
