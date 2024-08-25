@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Cloud on Frankie Murillo</title>
-    <link>http://localhost:1313/tags/cloud/</link>
+    <link>http://localhost:1313/mysite/tags/cloud/</link>
     <description>Recent content in Cloud on Frankie Murillo</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 18 Aug 2024 20:00:11 -0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/cloud/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/mysite/tags/cloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>K8s Crash Course</title>
-      <link>http://localhost:1313/posts/k8scrashcourse/</link>
+      <link>http://localhost:1313/mysite/posts/k8scrashcourse/</link>
       <pubDate>Sun, 18 Aug 2024 20:00:11 -0700</pubDate>
-      <guid>http://localhost:1313/posts/k8scrashcourse/</guid>
+      <guid>http://localhost:1313/mysite/posts/k8scrashcourse/</guid>
       <description>Over the past week I spent some time learning Kubernetes. I&amp;rsquo;m going to share some of the things I learned and some of the things I&amp;rsquo;m still learning.
 Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized application
 History Way back when&amp;hellip;.there were &amp;ldquo;Traditional Deployments&amp;rdquo; 2000&amp;rsquo;s On Premises, Bare metal hardware Teams of sysadmins handle provisioning and managing of fleets of servers Monoliths&amp;hellip;.. Custom, home grown monitoring and tooling 2010s VM&amp;rsquo;s starting to gain massive adoption Clouds services enables VM&amp;rsquo;s to be created and destroyed Configuration management tolling, and overall imporived tooling 2020s Containers, containers, containers Workload orchestrator&amp;rsquo;s (like Kubernetes!</description>

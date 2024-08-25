@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Golang on Frankie Murillo</title>
-    <link>http://localhost:1313/tags/golang/</link>
+    <link>http://localhost:1313/mysite/tags/golang/</link>
     <description>Recent content in Golang on Frankie Murillo</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
     <lastBuildDate>Tue, 06 Aug 2024 22:48:54 -0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/mysite/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Go: some context about context</title>
-      <link>http://localhost:1313/posts/go_context/</link>
+      <link>http://localhost:1313/mysite/posts/go_context/</link>
       <pubDate>Tue, 06 Aug 2024 22:48:54 -0700</pubDate>
-      <guid>http://localhost:1313/posts/go_context/</guid>
+      <guid>http://localhost:1313/mysite/posts/go_context/</guid>
       <description>In its simpliest form, context is an interface from the Go docs
 Package context defines the Context type, which carries deadlines, cancellation signals, and other request-scoped values across API boundaries and between processes. This may seem confusing but in essense context serves two purposes within a Go application Timeouts Storing values In general to craete a context you will call the context.Background() function. when you are unsure of what context to use you will use context.</description>
     </item>
     <item>
       <title>Go with the Flow: Event Streaming with Go and Kafka</title>
-      <link>http://localhost:1313/posts/go_kafka_article/</link>
+      <link>http://localhost:1313/mysite/posts/go_kafka_article/</link>
       <pubDate>Sat, 27 Jul 2024 11:39:57 -0700</pubDate>
-      <guid>http://localhost:1313/posts/go_kafka_article/</guid>
+      <guid>http://localhost:1313/mysite/posts/go_kafka_article/</guid>
       <description>What is Kafka? Kafka is an event streaming platform used to collect and process data streams at scale, it was Initially developed at LinkedIn in 2011. It is now open-sourced and part of the Apache Software Foundation. It is a JVM application written in Java and Scala.
 Notable Companies Using Kafka:
 LinkedIn: Kafka originated at LinkedIn. They use it for tracking operational metrics, monitoring, and event sourcing.
@@ -28,9 +28,9 @@ Netflix: They use Kafka for real-time monitoring and event processing.</descript
     </item>
     <item>
       <title>Gophercon 2024 Note Dump</title>
-      <link>http://localhost:1313/posts/gophercon/</link>
+      <link>http://localhost:1313/mysite/posts/gophercon/</link>
       <pubDate>Tue, 23 Jul 2024 19:27:05 -0700</pubDate>
-      <guid>http://localhost:1313/posts/gophercon/</guid>
+      <guid>http://localhost:1313/mysite/posts/gophercon/</guid>
       <description>GopherCon 2024 Notes Talks Day 1 Charm CLi (Habbit Tracker) - Donia Chaiehloudj Charm is a teminal UI written in go uses ELM archetecure - Model, View, Update grpC backend? (To store habbits etc) check out book Learning Go with pocket sized projects TLDR;Pretty cool, have used before not very succesfully, if I work with the Architecture of the project, I think it will be a lot easier to work with.</description>
     </item>
   </channel>

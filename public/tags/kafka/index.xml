@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Kafka on Frankie Murillo</title>
-    <link>http://localhost:1313/tags/kafka/</link>
+    <link>http://localhost:1313/mysite/tags/kafka/</link>
     <description>Recent content in Kafka on Frankie Murillo</description>
     <generator>Hugo -- 0.129.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 27 Jul 2024 11:39:57 -0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/mysite/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Go with the Flow: Event Streaming with Go and Kafka</title>
-      <link>http://localhost:1313/posts/go_kafka_article/</link>
+      <link>http://localhost:1313/mysite/posts/go_kafka_article/</link>
       <pubDate>Sat, 27 Jul 2024 11:39:57 -0700</pubDate>
-      <guid>http://localhost:1313/posts/go_kafka_article/</guid>
+      <guid>http://localhost:1313/mysite/posts/go_kafka_article/</guid>
       <description>What is Kafka? Kafka is an event streaming platform used to collect and process data streams at scale, it was Initially developed at LinkedIn in 2011. It is now open-sourced and part of the Apache Software Foundation. It is a JVM application written in Java and Scala.
 Notable Companies Using Kafka:
 LinkedIn: Kafka originated at LinkedIn. They use it for tracking operational metrics, monitoring, and event sourcing.
