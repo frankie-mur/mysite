@@ -1,7 +1,7 @@
 +++
 title = 'No Broken Windows'
 date = 2024-08-25T10:10:52-07:00
-draft = true
+draft = false
 +++
 # Background
 A while back I read an article about the conecpt of "No broken windows", at first it may seem odd, what does it mean to have no broken windows?
