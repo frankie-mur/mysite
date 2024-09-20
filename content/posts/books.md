@@ -10,6 +10,8 @@ tags = ["books", "recommendations"]
 | --- | --- | 
 | Writing a Compiler in Go | [Link](https://compilerbook.com/)
 | Acing the System Design Interview | [Link](https://www.manning.com/books/acing-the-system-design-interview)
+| Learning Go with Pocker Sized Projects | [Link](https://www.manning.com/books/learn-go-with-pocket-sized-projects) 
+| Project Hail Mary | [Link](https://www.amazon.com/Project-Hail-Mary-Andy-Weir/dp/0593135202)
 
 # Have Read
 | Title | Thoughts | Rating (out of 5) | Link | 
